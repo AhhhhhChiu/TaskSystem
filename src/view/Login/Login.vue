@@ -11,7 +11,7 @@
           type="password"
           @on-enter="toHome"
         ></i-input>
-        <div style="display: flex; justify-content: flex-end; align-items: center">
+        <div style="display: flex; align-items: center">
           <Button style=" width: 100%;" type="info" @click="toHome">登录</Button>
         </div>
       </div>
@@ -31,14 +31,14 @@ export default {
   },
   components: {},
   mounted() {
-    if (this.$store.state.token) {
-      console.log(this.$store.state.token);
-      this.$Message["info"]({
-        background: true,
-        content: "欢迎你，" + this.$store.state.name
-      });
-      this.$router.push({ path: "/Base" });
-    }
+    // if (this.$store.state.token) {
+    //   console.log(this.$store.state.token);
+    //   this.$Message["info"]({
+    //     background: true,
+    //     content: "欢迎你，" + this.$store.state.name
+    //   });
+    //   this.$router.push({ path: "/Base" });
+    // }
     const h = new Date().getHours();
     if (h >= 6 && h <= 11) {
       this.bg = require("../../assets/6_11.jpg");
@@ -52,38 +52,41 @@ export default {
   },
   methods: {
     toHome() {
-      if (!this.username || !this.password) {
-        alert("账号和密码都需要填写完整！");
-        return;
-      }
-      login({
-        username: this.username,
-        password: md5(this.password)
-      }).then(res => {
-        console.log("login success");
-        console.log(res);
-        if (res.data.error != 0) {
-          alert(res.data.msg);
-          return;
-        } else {
-          this.$store.commit("changeToken", res.data.token);
-          this.$store.commit("setUsername", this.username);
-          this.$store.commit("setName", res.data.name);
-          getUserPermission({ username: this.username }).then(res => {
-            // 把权限和token存进vuex
-            this.$store.commit(
-              "setPermission",
-              JSON.stringify(res.data.permission)
-            );
-            this.$Message["info"]({
-              background: true,
-              content: "欢迎你，" + this.$store.state.name
-            });
-            this.$router.push({ path: "/Base" });
-          });
-        }
-      });
+      this.$router.push({ path: "/home" });
     }
+    // toHome() {
+    //   if (!this.username || !this.password) {
+    //     alert("账号和密码都需要填写完整！");
+    //     return;
+    //   }
+    //   login({
+    //     username: this.username,
+    //     password: md5(this.password)
+    //   }).then(res => {
+    //     console.log("login success");
+    //     console.log(res);
+    //     if (res.data.error != 0) {
+    //       alert(res.data.msg);
+    //       return;
+    //     } else {
+    //       this.$store.commit("changeToken", res.data.token);
+    //       this.$store.commit("setUsername", this.username);
+    //       this.$store.commit("setName", res.data.name);
+    //       getUserPermission({ username: this.username }).then(res => {
+    //         // 把权限和token存进vuex
+    //         this.$store.commit(
+    //           "setPermission",
+    //           JSON.stringify(res.data.permission)
+    //         );
+    //         this.$Message["info"]({
+    //           background: true,
+    //           content: "欢迎你，" + this.$store.state.name
+    //         });
+    //         this.$router.push({ path: "/Base" });
+    //       });
+    //     }
+    //   });
+    // }
   }
 };
 </script>
@@ -104,9 +107,7 @@ export default {
   width: 410px;
   min-width: 410px;
   padding: 10px;
-  // background: transparent;
   border-color: transparent;
-  // background-color: rgba(255, 255, 255, 0.5);
   background-color: #fff;
   position: relative;
   display: -ms-flexbox;
@@ -115,9 +116,7 @@ export default {
   flex-direction: column;
   min-width: 0;
   word-wrap: break-word;
-  // background-color: #fff;
   background-clip: border-box;
-  // border: 1px solid rgba(0, 0, 0, 0.125);
   border-radius: 0.5rem;
 }
 
