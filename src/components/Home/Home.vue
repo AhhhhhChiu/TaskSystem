@@ -8,6 +8,7 @@
       </nav>
     </Content>
     <Content class="right my-shadow">
+      <!-- 下面这里就是列表 -->
       <Card
         v-for="i in (20)"
         :key="i"
@@ -18,6 +19,7 @@
         <span href="#" slot="extra">2020/5/19</span>
         <p>需求是这样的：这样这样那样这样这样这样那样这样这样这样那样这样这样这样那样这样这样这样那样这样这样这样那样这样这样这样那样这样这样这样那样这样这样这样那样这样这样这样那样这样</p>
       </Card>
+      <!-- 上面这里就是列表 -->
     </Content>
   </div>
 </template>

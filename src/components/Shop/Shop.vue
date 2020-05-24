@@ -7,7 +7,9 @@
         </ul>
       </nav>
     </Content>
-    <Content class="right my-shadow">asdasdasd</Content>
+    <Content class="right my-shadow">
+      <!-- 商城的内容写在这里就可以 -->
+    </Content>
   </div>
 </template>
 
