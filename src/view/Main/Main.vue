@@ -77,25 +77,42 @@ li {
       <header class="my-shadow">
         <nav class="container main">
           <div class="layout-logo">任务发布系统</div>
-          <Menu style="border:none" mode="horizontal" active-name="任务中心">
-            <MenuItem style="border:none" v-for="item in list" :key="item" :name="item.name">
-              <Icon :type="item.icon" />
-              {{item.name}}
+          <Menu style="border:none" mode="horizontal" active-name="1" @on-select="toPage">
+            <MenuItem style="border:none" name="0">
+              <Icon type="md-planet" />任务中心
             </MenuItem>
+            <MenuItem style="border:none" name="1">
+              <Icon type="md-search" />任务查询
+            </MenuItem>
+            <MenuItem style="border:none" name="2">
+              <Icon type="md-cart" />积分商城
+            </MenuItem>
+            <MenuItem style="border:none" name="3">
+              <Icon type="md-person" />个人中心
+            </MenuItem>
+            <Submenu style="border:none" name="999">
+              <template slot="title">
+                <Icon type="ios-stats" />超级管理员
+              </template>
+              <MenuItem name="4">发布任务</MenuItem>
+              <MenuItem name="5">商城管理</MenuItem>
+            </Submenu>
+            <!-- <Submenu name="3">
+              <template slot="title">
+                <Icon type="ios-stats" />统计分析
+              </template>
+              <MenuItem name="3-1">新增和启动</MenuItem>
+              <MenuItem name="3-2">活跃分析</MenuItem>
+              <MenuItem name="3-3">时段分析</MenuItem>
+            </Submenu>-->
           </Menu>
-          <!-- <ul>
-            <li v-for="item in list" :key="item">
-              <Icon size="18" :type="item.icon" />&nbsp;
-              <span>{{item.name}}</span>
-            </li>
-          </ul>-->
         </nav>
       </header>
       <Layout :style="{padding: '0 50px', width: '100%', marginTop: '60px'}">
         <div class="container">
           <Breadcrumb :style="{margin: '16px 0'}">
             <BreadcrumbItem>主页</BreadcrumbItem>
-            <BreadcrumbItem>任务中心</BreadcrumbItem>
+            <BreadcrumbItem>个人中心</BreadcrumbItem>
           </Breadcrumb>
           <router-view />
         </div>
@@ -108,25 +125,15 @@ li {
 export default {
   data() {
     return {
-      list: [
-        {
-          icon: "md-planet",
-          name: "任务中心"
-        },
-        {
-          icon: "md-search",
-          name: "任务查询"
-        },
-        {
-          icon: "md-add-circle",
-          name: "发布任务"
-        },
-        {
-          icon: "md-person",
-          name: "个人中心"
-        }
-      ]
+      list: ["home", "search", "shop", "user", "post", "shopmanager"]
     };
+  },
+  methods: {
+    toPage(index) {
+      this.$router.push({
+        name: this.list[index]
+      });
+    }
   }
 };
 </script>
