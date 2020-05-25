@@ -8,8 +8,21 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'login',
-      component: () => import("@/view/Login")
+      name: '/',
+      component: () => import("@/view/RegLogin/RegLogin.vue"),
+      redirect: "/login",
+      children: [
+        {
+          path: '/login',
+          name: 'login',
+          component: () => import("@/view/RegLogin/Login")
+        },
+        {
+          path: '/register',
+          name: 'register',
+          component: () => import("@/view/RegLogin/Register")
+        },
+      ]
     },
     {
       path: '/main',
@@ -20,33 +33,51 @@ export default new Router({
         {
           path: '/home',
           name: 'home',
-          component: () => import("@/components/Home")
+          component: () => import("@/components/Home"),
+          meta: {
+            breadcrumb: ["主页", "任务中心"]
+          }
         },
         {
           path: '/search',
           name: 'search',
-          component: () => import("@/components/Search")
+          component: () => import("@/components/Search"),
+          meta: {
+            breadcrumb: ["主页", "任务查询"]
+          }
         },
 
         {
           path: '/shop',
           name: 'shop',
-          component: () => import("@/components/Shop")
+          component: () => import("@/components/Shop"),
+          meta: {
+            breadcrumb: ["主页", "积分商城"]
+          }
         },
         {
           path: '/user',
           name: 'user',
-          component: () => import("@/components/User")
+          component: () => import("@/components/User"),
+          meta: {
+            breadcrumb: ["主页", "个人中心"]
+          }
         },
         {
           path: '/post',
           name: 'post',
-          component: () => import("@/components/Post")
+          component: () => import("@/components/Post"),
+          meta: {
+            breadcrumb: ["主页", "超级管理员", "发布任务"]
+          }
         },
         {
           path: '/shopmanager',
           name: 'shopmanager',
-          component: () => import("@/components/ShopManager")
+          component: () => import("@/components/ShopManager"),
+          meta: {
+            breadcrumb: ["主页", "超级管理员", "商城管理"]
+          }
         },
       ]
     },

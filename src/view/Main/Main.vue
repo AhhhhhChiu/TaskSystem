@@ -77,25 +77,30 @@ li {
       <header class="my-shadow">
         <nav class="container main">
           <div class="layout-logo">任务发布系统</div>
-          <Menu style="border:none" mode="horizontal" active-name="1" @on-select="toPage">
-            <MenuItem style="border:none" name="0">
+          <Menu
+            style="border:none"
+            mode="horizontal"
+            :active-name="activeNname"
+            @on-select="toPage"
+          >
+            <MenuItem style="border:none" name="任务中心">
               <Icon type="md-planet" />任务中心
             </MenuItem>
-            <MenuItem style="border:none" name="1">
+            <MenuItem style="border:none" name="任务查询">
               <Icon type="md-search" />任务查询
             </MenuItem>
-            <MenuItem style="border:none" name="2">
+            <MenuItem style="border:none" name="积分商城">
               <Icon type="md-cart" />积分商城
             </MenuItem>
-            <MenuItem style="border:none" name="3">
+            <MenuItem style="border:none" name="个人中心">
               <Icon type="md-person" />个人中心
             </MenuItem>
             <Submenu style="border:none" name="999">
               <template slot="title">
                 <Icon type="ios-stats" />超级管理员
               </template>
-              <MenuItem name="4">发布任务</MenuItem>
-              <MenuItem name="5">商城管理</MenuItem>
+              <MenuItem name="发布任务">发布任务</MenuItem>
+              <MenuItem name="商城管理">商城管理</MenuItem>
             </Submenu>
             <!-- <Submenu name="3">
               <template slot="title">
@@ -111,8 +116,7 @@ li {
       <Layout :style="{padding: '0 50px', width: '100%', marginTop: '60px'}">
         <div class="container">
           <Breadcrumb :style="{margin: '16px 0'}">
-            <BreadcrumbItem>主页</BreadcrumbItem>
-            <BreadcrumbItem>个人中心</BreadcrumbItem>
+            <BreadcrumbItem v-for="item in breadcrumb" :key="item">{{item}}</BreadcrumbItem>
           </Breadcrumb>
           <router-view />
         </div>
@@ -125,13 +129,34 @@ li {
 export default {
   data() {
     return {
-      list: ["home", "search", "shop", "user", "post", "shopmanager"]
+      list: {
+        任务中心: "home",
+        任务查询: "search",
+        积分商城: "shop",
+        个人中心: "user",
+        发布任务: "post",
+        商城管理: "shopmanager"
+      },
+      breadcrumb: [],
+      activeNname: ""
     };
   },
+  mounted() {
+    const last = this.$route.meta.breadcrumb.length - 1;
+    this.activeNname = this.$route.meta.breadcrumb[last];
+    this.changePath();
+  },
+  watch: {
+    $route: "changePath"
+  },
   methods: {
-    toPage(index) {
+    changePath() {
+      this.breadcrumb = this.$route.meta.breadcrumb;
+    },
+    // 点击导航
+    toPage(name) {
       this.$router.push({
-        name: this.list[index]
+        name: this.list[name]
       });
     }
   }
