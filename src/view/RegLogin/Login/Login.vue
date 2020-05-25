@@ -64,6 +64,8 @@ export default {
         console.log(res);
         this.$Message.success("登录成功");
         this.loginLoading = false;
+        // token存起来
+        this.$store.commit("setToken", res.data.data);
         setTimeout(() => {
           this.$router.push({ name: "home" });
         }, 800);

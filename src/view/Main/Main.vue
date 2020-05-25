@@ -12,7 +12,6 @@
   align-items: center;
   flex: 1;
   font-size: 18px;
-  /* color: #3eaf7c; */
 }
 .layout-footer-center {
   text-align: center;
@@ -34,24 +33,6 @@ header {
   display: flex;
   align-items: center;
 }
-/* ul {
-  height: 57px;
-  display: flex;
-  flex-direction: row;
-}
-li {
-  height: 100%;
-  cursor: pointer;
-  margin-left: 25px;
-  display: flex;
-  border-bottom: solid 2px #fff;
-  align-items: center;
-}
-li:hover,
-li:active {
-  color: #3eaf7c;
-  border-bottom: solid 2px #3eaf7c;
-} */
 </style>
 <style>
 li {
@@ -102,14 +83,6 @@ li {
               <MenuItem name="发布任务">发布任务</MenuItem>
               <MenuItem name="商城管理">商城管理</MenuItem>
             </Submenu>
-            <!-- <Submenu name="3">
-              <template slot="title">
-                <Icon type="ios-stats" />统计分析
-              </template>
-              <MenuItem name="3-1">新增和启动</MenuItem>
-              <MenuItem name="3-2">活跃分析</MenuItem>
-              <MenuItem name="3-3">时段分析</MenuItem>
-            </Submenu>-->
           </Menu>
         </nav>
       </header>
@@ -150,6 +123,7 @@ export default {
     $route: "changePath"
   },
   methods: {
+    // 路由变化
     changePath() {
       this.breadcrumb = this.$route.meta.breadcrumb;
     },

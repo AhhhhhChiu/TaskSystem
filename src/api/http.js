@@ -1,4 +1,5 @@
-import axios from 'axios'
+import axios from 'axios';
+import Vue from "../main";
 
 class HttpRequest {
     constructor() {
@@ -20,6 +21,9 @@ class HttpRequest {
         // 请求拦截器
         this.instance.interceptors.request.use(config => {
             // do something
+            if (config.url !== HttpRequest.LOGIN && config.url !== HttpRequest.REGISTER) {
+                config.headers['token'] = Vue.$store.getters.token;
+            }
             return config;
         }, error => {
             // do something
@@ -75,5 +79,8 @@ class HttpRequest {
 
     }
 }
+
+HttpRequest.LOGIN = "/user/login";
+HttpRequest.REGISTER = "/user/save";
 
 export default HttpRequest;
