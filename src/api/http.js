@@ -1,4 +1,5 @@
 import axios from 'axios';
+import QS from 'qs';
 import Vue from "../main";
 
 class HttpRequest {
@@ -33,6 +34,7 @@ class HttpRequest {
         // 响应拦截器
         this.instance.interceptors.response.use(response => {
             // do something
+            // console.log(response.code)
             return response;
         }, error => {
             // do something
@@ -61,19 +63,12 @@ class HttpRequest {
 
     // 通用的POST
     post(url, data) {
-        let params = new URLSearchParams();
-        for (const key in data) {
-            if (data.hasOwnProperty(key)) {
-                const element = data[key];
-                params.append(key, element);
-            }
-        }
         return this.instance({
             url: url,
             method: 'post',
-            data: params,
+            data: QS.stringify(data),
             headers: {
-                "Content-Type": "application/x-www-form-urlencoded"
+                'Content-Type': "application/x-www-form-urlencoded",
             }
         })
 

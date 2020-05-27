@@ -5,6 +5,14 @@ try {
     }
 } catch (e) { }
 
+let LoginForm = ""
+try {
+    if (localStorage.LoginForm) {
+        LoginForm = localStorage.LoginForm
+    }
+} catch (e) { }
+
 export default {
-    token
+    token,
+    LoginForm
 }

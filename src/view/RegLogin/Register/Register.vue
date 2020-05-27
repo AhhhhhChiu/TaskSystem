@@ -4,28 +4,28 @@
     <Form
       ref="RegisterForm"
       :model="RegisterForm"
-      :rules="rule_RegisterForm"
       class="form-class"
-      @keydown.enter.native="register_submit('RegisterForm')"
+      @keydown.enter.native="register(RegisterForm)"
     >
       <FormItem prop="userName">
         <span>账号</span>
-        <input type="text" class="input" />
+        <input v-model="RegisterForm['user.accountName']" type="text" class="input" maxlength="11" />
       </FormItem>
       <FormItem prop="password">
         <span>密码</span>
-        <input type="password" class="input" />
+        <input v-model="RegisterForm['user.password']" type="password" class="input" maxlength="18" />
       </FormItem>
-      <FormItem prop="password">
+      <FormItem prop="confirmPwd">
         <span>确认密码</span>
-        <input type="password" class="input" />
+        <input v-model="confirmPwd" type="password" class="input" maxlength="18" />
       </FormItem>
       <FormItem>
         <Button
           style="margin-top: 25px; background: #5A8CFF; border:#5A8CFF"
           type="primary"
-          @click.native.prevent="register_submit('RegisterForm')"
+          @click.native.prevent="register(RegisterForm)"
           long
+          :loading="registerLoading"
         >注册</Button>
       </FormItem>
     </Form>
@@ -37,9 +37,54 @@
 </template>
 
 <script>
-// import Format from "@/assets/js/Format.js";
-// import { mapMutations, mapActions } from "vuex";
-export default {};
+import { register } from "@/api/apis";
+export default {
+  data() {
+    return {
+      RegisterForm: {
+        "user.userName": this.random_No(),
+        "user.accountName": "",
+        "user.password": "",
+        "user.roleId": 2
+      },
+      confirmPwd: "",
+      registerLoading: false
+    };
+  },
+  methods: {
+    register(RegisterForm) {
+      if (
+        !RegisterForm["user.accountName"] ||
+        !RegisterForm["user.password"] ||
+        !this.confirmPwd
+      ) {
+        this.$Message.error("所有空都要填！");
+        return;
+      }
+      if (RegisterForm["user.password"] !== this.confirmPwd) {
+        this.$Message.error("两次密码输入不一致");
+        return;
+      }
+      this.registerLoading = true;
+      register(RegisterForm).then(res => {
+        console.log(res);
+        this.$Message.success("注册成功");
+        this.registerLoading = false;
+        setTimeout(() => {
+          this.$router.push({ name: "login" });
+        }, 0);
+      });
+    },
+    random_No(j) {
+      var random_no = "";
+      for (var i = 0; i < j; i++) {
+        random_no += Math.floor(Math.random() * 10);
+      }
+      random_no = new Date().getTime() + random_no;
+      return "用户" + random_no;
+    }
+  }
+};
 </script>
 <style scoped>
 .input {

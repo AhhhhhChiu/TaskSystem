@@ -1,6 +1,7 @@
 <template>
   <div class="container my-shadow box">
     <h2>商城管理</h2>
+    <Table></Table>
   </div>
 </template>
   

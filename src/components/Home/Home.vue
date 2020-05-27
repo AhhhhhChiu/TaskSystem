@@ -2,16 +2,16 @@
   <div class="container main">
     <Content class="left my-shadow" padding="0">
       <nav>
-        <ul>
-          <li v-for="item in list" :key="item">{{item}}</li>
+        <ul @click="changeTaskType">
+          <li v-for="item in typeList" :key="item">{{item}}</li>
         </ul>
       </nav>
     </Content>
     <Content class="right my-shadow">
       <!-- 下面这里就是列表 -->
       <Card
-        v-for="i in (20)"
-        :key="i"
+        v-for="i in list"
+        :key="i.id"
         dis-hover
         style="height: fit-content; width: 700px; margin: 20px;"
       >
@@ -25,18 +25,49 @@
 </template>
 
 <script>
+import { getTaskById, getTaskByTypeId } from "@/api/apis";
 export default {
   data() {
     return {
-      list: [
+      typeList: [
         "软件外包",
         "跑腿代取",
         "视频剪辑",
         "食堂兼职",
         "办公助理",
         "澳门代购"
-      ]
+      ],
+      currentPage: 1,
+      pageSize: 10,
+      list: []
     };
+  },
+
+  created() {
+    this.getTaskByTypeId({ "task.typei_d": 0, currentPage: 1, pageSize: 10 });
+  },
+
+  methods: {
+    // 获取任务
+    getTaskByTypeId(info) {
+      getTaskByTypeId(info).then(res => {
+        this.list = res.data.data.data;
+        console.log(this.list);
+      });
+    },
+
+    // 更改
+    changeTaskType(event) {
+      if (event.target.nodeType === 1) {
+        this.getTaskByTypeId({
+          "task.typei_d": this.typeList.indexOf(event.target.innerHTML),
+          currentPage: 1,
+          pageSize: 10
+        });
+      }
+    }
+
+    //
   }
 };
 </script>

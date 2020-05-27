@@ -10,11 +10,14 @@ export default new Vuex.Store({
         setToken(state, token) {
             state.token = token
             localStorage.setItem("token", token);
+        },
+        remeberme(state, LoginForm) {
+            state.LoginForm = LoginForm
+            localStorage.setItem("LoginForm", LoginForm);
         }
     },
     getters: {
-        token: state => {
-            return state.token;
-        }
+        token: state => state.token,
+        LoginForm: state => state.LoginForm
     }
 })

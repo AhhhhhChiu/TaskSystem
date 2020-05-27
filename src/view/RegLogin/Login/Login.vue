@@ -15,11 +15,11 @@
       <FormItem>
         <div style="display: flex; justify-content: space-between">
           <span>密码</span>
-          <a>忘记密码?</a>
+          <a onclick="alert('联系管理员xxxxxx@gmail.com')">忘记密码?</a>
         </div>
         <input v-model="LoginForm['user.password']" type="password" class="input" />
       </FormItem>
-      <Checkbox>
+      <Checkbox v-model="remeberme">
         <span class="rememberKey">记住密码</span>
       </Checkbox>
       <br />
@@ -44,13 +44,21 @@
 <script>
 import { login } from "@/api/apis";
 export default {
+  created() {
+    let LoginForm = localStorage.getItem("LoginForm");
+    if (LoginForm) {
+      this.LoginForm = JSON.parse(LoginForm);
+      this.remeberme = true;
+    }
+  },
   data() {
     return {
       LoginForm: {
         "user.accountName": "",
         "user.password": ""
       },
-      loginLoading: false
+      loginLoading: false,
+      remeberme: false
     };
   },
   methods: {
@@ -61,6 +69,8 @@ export default {
       }
       this.loginLoading = true;
       login(data).then(res => {
+        if (this.remeberme)
+          localStorage.setItem("LoginForm", JSON.stringify(this.LoginForm));
         console.log(res);
         this.$Message.success("登录成功");
         this.loginLoading = false;
@@ -68,7 +78,7 @@ export default {
         this.$store.commit("setToken", res.data.data);
         setTimeout(() => {
           this.$router.push({ name: "home" });
-        }, 800);
+        }, 600);
       });
     },
     toRegister: function() {
