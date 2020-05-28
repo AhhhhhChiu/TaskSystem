@@ -17,3 +17,7 @@ export const getTaskById = (data) => {
 export const getTaskByTypeId = (data) => {
     return http.post(urls.getTaskByTypeId, data);
 }
+
+export const getGifts = (data) => {
+    return http.post(urls.getGifts, data);
+}
