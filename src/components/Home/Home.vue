@@ -8,37 +8,17 @@
       </nav>
     </Content>
     <Content class="right my-shadow">
-      <!-- 下面这里就是列表 -->
-      <!-- area: null
-      content: "wqewqe123rewr"
-      create_time: "2020-05-22T18:15:00"
-      create_user: 2
-      end_time: "2020-06-10T01:11:11"
-      id: 50
-      img: "wqeqw"
-      integral: 12
-      number: 11
-      start_time: "2020-05-22T01:11:11"
-      status: false
-      title: "wqe123213"
-      type_id: 1 -->
-      <Card
-        v-for="i in (1)"
-        :key="i.id"
-        dis-hover
-        style="height: fit-content; width: 700px; margin: 20px;"
-      >
-        <p slot="title">【软件外包】有没有人会做小程序的</p>
-        <span href="#" slot="extra">2020/5/19</span>
-        <p>需求是这样的：这样这样那样这样这样这样那样这样这样这样那样这样这样这样那样这样这样这样那样这样这样这样那样这样这样这样那样这样这样这样那样这样这样这样那样这样这样这样那样这样</p>
-      </Card>
-      <!-- 上面这里就是列表 -->
+      <Task v-for="i in list" :key="i" :item="i" />
+      <Loader :loading="loading" />
+      <div style="margin-top: 50px" v-if="list.length === 0 && !loading">这个分类下暂时没有任务</div>
     </Content>
   </div>
 </template>
 
 <script>
 import { getTaskById, getTaskByTypeId } from "@/api/apis";
+import Task from "@/components/Components/Task";
+import Loader from "@/components/Components/Loader";
 export default {
   data() {
     return {
@@ -50,21 +30,27 @@ export default {
         "办公助理",
         "澳门代购"
       ],
+      loading: false,
       currentPage: 1,
       pageSize: 10,
       list: []
     };
   },
-
+  components: {
+    Task,
+    Loader
+  },
   created() {
-    this.getTaskByTypeId({ "task.typei_d": 0, currentPage: 1, pageSize: 10 });
+    this.getTaskByTypeId({ "task.type_id": 0, currentPage: 1, pageSize: 10 });
   },
 
   methods: {
     // 获取任务
     getTaskByTypeId(info) {
+      this.loading = true;
       getTaskByTypeId(info).then(res => {
         this.list = res.data.data.data;
+        this.loading = false;
         console.log(this.list);
       });
     },
@@ -86,6 +72,32 @@ export default {
 </script>
 
 <style scoped>
+.item {
+  width: 600px;
+  /* min-height: 200px; */
+  margin-top: 40px;
+  border-bottom: solid 1px #ddd;
+}
+.title {
+  display: block;
+  color: #6d6d6d;
+  word-wrap: break-word;
+  font-weight: normal;
+}
+.info {
+  height: fit-content;
+  padding: 5px 0;
+  color: #999;
+  display: flex;
+  flex-direction: row;
+}
+.article {
+  padding: 5px 0 15px 0;
+}
+.footer {
+  float: right;
+  margin-bottom: 25px;
+}
 nav {
   width: 240px;
   background-color: #fff;

@@ -69,13 +69,20 @@ export default {
       }
       this.loginLoading = true;
       login(data).then(res => {
-        if (this.remeberme)
+        if (res.data.code !== 200) {
+          this.$Message.error("账号或密码错误");
+          this.loginLoading = false;
+          return;
+        }
+        this.remeberme &&
           localStorage.setItem("LoginForm", JSON.stringify(this.LoginForm));
         console.log(res);
-        this.$Message.success("登录成功");
+        let msg = res.data.data.getIntegral ? "登录成功 +1积分" : "登录成功";
+        this.$Message.success(msg);
         this.loginLoading = false;
-        // token存起来
-        this.$store.commit("setToken", res.data.data);
+        // token和id存起来
+        this.$store.commit("setToken", res.data.data.token);
+        this.$store.commit("setId", res.data.data.id);
         setTimeout(() => {
           this.$router.push({ name: "home" });
         }, 0);

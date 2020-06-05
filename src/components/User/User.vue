@@ -11,25 +11,33 @@
         </div>
         <div class="form">
           <div style="diplay:flex; justify-content: space-between">
-            <div class="name">AhChiu</div>
+            <div class="name">{{formItem.userName}}</div>
             <Button style="margin-left: 6px" size="small">退出</Button>
           </div>
-          <Form style="margin-top: 30px;" :model="formItem" :label-width="50">
-            <FormItem label="账号">123123123123123</FormItem>
-            <FormItem label="积分">123</FormItem>
-            <FormItem label="昵称">
+          <Form style="margin-top: 30px;" :model="formItem" :label-width="60">
+            <FormItem label="账号">{{formItem.accountName}}</FormItem>
+            <FormItem label="积分">
               <input
                 class="input"
                 style="width: 500px"
+                v-model="formItem.integral"
                 :disabled="!isEdit"
-                v-model="formItem.input"
               />
+            </FormItem>
+            <FormItem label="昵称" :style="{display: isEdit?'':'none'}">
+              <input class="input" style="width: 500px" v-model="formItem.userName" />
+            </FormItem>
+            <FormItem label="旧密码" :style="{display: isEdit?'':'none'}">
+              <input class="input" style="width: 500px" v-model="oldPassword" />
+            </FormItem>
+            <FormItem label="新密码" :style="{display: isEdit?'':'none'}">
+              <input class="input" style="width: 500px" v-model="newPassword" />
             </FormItem>
             <FormItem label="手机">
               <input
                 class="input"
                 style="width: 500px"
-                v-model="formItem.input"
+                v-model="formItem.telphone"
                 :disabled="!isEdit"
               />
             </FormItem>
@@ -37,16 +45,26 @@
               <input
                 class="input"
                 style="width: 500px"
-                v-model="formItem.input"
+                v-model="formItem.email"
                 :disabled="!isEdit"
               />
             </FormItem>
             <FormItem label="地区">
-              <!-- <Select v-model="formItem.select">
+              <Select
+                style="width: 500px"
+                v-model="formItem.address"
+                :style="{display: isEdit?'':'none'}"
+              >
                 <Option value="校内">校内</Option>
                 <Option value="校外">校外</Option>
-              </Select>-->
-              <input class="input" style="width: 500px" v-model="formItem.select" disabled />
+              </Select>
+              <input
+                class="input"
+                style="width: 500px"
+                v-model="formItem.address"
+                disabled
+                :style="{display: isEdit?'none':''}"
+              />
             </FormItem>
             <FormItem :style="{display: isEdit?'none':''}">
               <Button type="primary" :style="{float: 'right'}" @click="isEdit=true">编辑</Button>
@@ -56,8 +74,8 @@
                 style="float: right; margin-left: 10px"
                 type="primary"
                 @click="isEdit=false"
-              >Submit</Button>
-              <Button style="float: right;">Cancel</Button>
+              >保存</Button>
+              <Button style="float: right;">取消</Button>
             </FormItem>
           </Form>
         </div>
@@ -67,6 +85,7 @@
 </template>
 
 <script>
+import { getUserInfo } from "@/api/apis";
 export default {
   data() {
     return {
@@ -74,6 +93,24 @@ export default {
       formItem: {},
       isEdit: false
     };
+  },
+  created() {
+    let id = this.$store.state.id;
+    getUserInfo({ "user.id": id }).then(res => {
+      // accountName: (...)
+      // address: (...)
+      // avatar: (...)
+      // email: (...)
+      // id: (...)
+      // integral: (...)
+      // loginTime: (...)
+      // password: (...)
+      // roleId: (...)
+      // telphone: (...)
+      // userName: (...)
+      console.log(res.data.data);
+      this.formItem = res.data.data;
+    });
   }
 };
 </script>

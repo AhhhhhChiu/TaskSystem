@@ -13,12 +13,12 @@
       </FormItem>
       <FormItem label="任务分类" prop="city">
         <Select v-model="formValidate.city" placeholder="选择任务分类">
-          <Option value="软件外包">软件外包</Option>
-          <Option value="跑腿代取">跑腿代取</Option>
-          <Option value="视频剪辑">视频剪辑</Option>
-          <Option value="食堂兼职">食堂兼职</Option>
-          <Option value="办公助理">办公助理</Option>
-          <Option value="澳门代购">澳门代购</Option>
+          <Option value="0">软件外包</Option>
+          <Option value="1">跑腿代取</Option>
+          <Option value="2">视频剪辑</Option>
+          <Option value="3">食堂兼职</Option>
+          <Option value="4">办公助理</Option>
+          <Option value="5">澳门代购</Option>
         </Select>
       </FormItem>
       <FormItem label="任务人数" prop="number">
@@ -62,19 +62,20 @@
 </template>
   
 <script>
+import { createTask } from "@/api/apis";
 export default {
   data() {
     return {
-      // int(11) typeId  //分类主键
-      // varchar(20) title   //标题
-      // varchar(255)  content  //任务内容
-      // varchar(20) area  //地区
-      // int(11) integral   //任务积分
-      // varchar(255)   img   //图片
-      // bit(1) status  //状态  0 发布   1完成
-      // datetime create_time  //发布时间
-      // datetime update_time //修改时间
-      // datetime expired_time //任务过期时间
+      // task.type_id[int]是	任务的分类
+      // task.title[string]是	标题
+      // task.content[string]是	任务内容
+      // task.area[string]是	任务地区
+      // task.integral[int]是	任务积分
+      // task.img[string]是	任务图片
+      // task.number[int]是	任务人数
+      // task.status[boolean]是	任务状态
+      // task.start_time[datetime]是	任务开始时间
+      // task.end_time[datetime]是	任务结束时间
       formValidate: {
         name: "",
         mail: "",

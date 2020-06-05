@@ -10,5 +10,13 @@ export const urls = {
     // 获取所有礼品信息
     getGifts: "/shop/getAllShop",
     // 修改礼品信息
-    updateGift: "/shop/update"
+    updateGift: "/shop/update",
+    // 获取用户信息
+    getUserInfo: "/user/get",
+    // 接受任务
+    acceptTask: "/task/saveTaskOfUser",
+    // 创建任务
+    createTask: "/task/save",
+    // 任务查询
+    searchTask: "/task/findLike"
 }

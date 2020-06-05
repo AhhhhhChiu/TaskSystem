@@ -25,3 +25,19 @@ export const getGifts = (data) => {
 export const updateGift = (data) => {
     return http.post(urls.updateGift, data);
 }
+
+export const getUserInfo = (data) => {
+    return http.post(urls.getUserInfo, data);
+}
+
+export const acceptTask = (data) => {
+    return http.post(urls.acceptTask, data);
+}
+
+export const createTask = (data) => {
+    return http.post(urls.createTask, data);
+}
+
+export const searchTask = (data) => {
+    return http.post(urls.searchTask, data);
+}
