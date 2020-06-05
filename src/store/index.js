@@ -8,16 +8,20 @@ export default new Vuex.Store({
     state,
     mutations: {
         setToken(state, token) {
-            state.token = token
+            state.token = token;
             localStorage.setItem("token", token);
         },
         setId(state, id) {
-            state.id = id
+            state.id = id;
             localStorage.setItem("id", id);
         },
         remeberme(state, LoginForm) {
-            state.LoginForm = LoginForm
+            state.LoginForm = LoginForm;
             localStorage.setItem("LoginForm", LoginForm);
+        },
+        clearToken(state) {
+            state.token = "";
+            localStorage.setItem("token", "")
         }
     },
     getters: {

@@ -63,6 +63,7 @@ export default {
 <style>
 .item {
   width: 600px;
+  /* height: fit-content; */
   /* min-height: 200px; */
   margin-top: 40px;
   border-bottom: solid 1px #ddd;
@@ -84,7 +85,9 @@ export default {
   padding: 5px 0 15px 0;
 }
 .footer {
-  float: right;
+  /* float: right; */
+  display: flex;
+  justify-content: flex-end;
   margin-bottom: 25px;
 }
 </style>

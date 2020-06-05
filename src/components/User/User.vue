@@ -12,32 +12,32 @@
         <div class="form">
           <div style="diplay:flex; justify-content: space-between">
             <div class="name">{{formItem.userName}}</div>
-            <Button style="margin-left: 6px" size="small">退出</Button>
+            <!-- <Button style="margin-left: 6px" size="small">退出</Button> -->
           </div>
           <Form style="margin-top: 30px;" :model="formItem" :label-width="60">
-            <FormItem label="账号">{{formItem.accountName}}</FormItem>
+            <FormItem label="账号">
+              <input class="input" style="width: 500px" v-model="formItem.accountName" disabled />
+            </FormItem>
             <FormItem label="积分">
-              <input
-                class="input"
-                style="width: 500px"
-                v-model="formItem.integral"
-                :disabled="!isEdit"
-              />
+              <input class="input" style="width: 500px" v-model="formItem.integral" disabled />
             </FormItem>
             <FormItem label="昵称" :style="{display: isEdit?'':'none'}">
               <input class="input" style="width: 500px" v-model="formItem.userName" />
             </FormItem>
-            <FormItem label="旧密码" :style="{display: isEdit?'':'none'}">
+            <!-- <FormItem label="旧密码" :style="{display: isEdit?'':'none'}">
               <input class="input" style="width: 500px" v-model="oldPassword" />
             </FormItem>
             <FormItem label="新密码" :style="{display: isEdit?'':'none'}">
               <input class="input" style="width: 500px" v-model="newPassword" />
-            </FormItem>
+            </FormItem>-->
             <FormItem label="手机">
               <input
                 class="input"
                 style="width: 500px"
+                type="number"
+                maxlength="11"
                 v-model="formItem.telphone"
+                placeholder="1xx xxxx xxxx"
                 :disabled="!isEdit"
               />
             </FormItem>
@@ -45,6 +45,7 @@
               <input
                 class="input"
                 style="width: 500px"
+                placeholder="xxx@example.com"
                 v-model="formItem.email"
                 :disabled="!isEdit"
               />
@@ -73,9 +74,10 @@
               <Button
                 style="float: right; margin-left: 10px"
                 type="primary"
-                @click="isEdit=false"
+                @click="save"
+                :loading="loading"
               >保存</Button>
-              <Button style="float: right;">取消</Button>
+              <Button style="float: right;" @click="isEdit=false">取消</Button>
             </FormItem>
           </Form>
         </div>
@@ -85,12 +87,12 @@
 </template>
 
 <script>
-import { getUserInfo } from "@/api/apis";
+import { getUserInfo, updateUserInfo } from "@/api/apis";
 export default {
   data() {
     return {
-      list: ["个人信息", "我的任务", "兑换清单"],
       formItem: {},
+      loading: false,
       isEdit: false
     };
   },
@@ -111,6 +113,27 @@ export default {
       console.log(res.data.data);
       this.formItem = res.data.data;
     });
+  },
+  methods: {
+    save() {
+      let item = this.formItem;
+      this.loading = true;
+      updateUserInfo({
+        "user.id": item.id,
+        "user.userName": item.userName,
+        "user.accountName": item.accountName,
+        "user.password": item.password,
+        "user.roleId": item.roleId,
+        "user.telphone": item.telphone,
+        "user.email": item.email,
+        "user.address": item.address
+      }).then(res => {
+        console.log(res);
+        this.loading = false;
+        this.isEdit = false;
+        this.$Message.success("已保存");
+      });
+    }
   }
 };
 </script>

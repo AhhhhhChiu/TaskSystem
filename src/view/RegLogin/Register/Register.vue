@@ -45,7 +45,8 @@ export default {
         "user.userName": this.random_No(),
         "user.accountName": "",
         "user.password": "",
-        "user.roleId": 2
+        "user.roleId": 2,
+        "user.address": "校内"
       },
       confirmPwd: "",
       registerLoading: false

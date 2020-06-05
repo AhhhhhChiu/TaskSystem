@@ -4,7 +4,7 @@ import Vue from "../main";
 
 class HttpRequest {
     constructor() {
-        // this.baseURL = process.env.NODE_ENV === 'production' ? '/' : '/api';
+        this.baseURL = process.env.NODE_ENV === 'production'? '/sshLab_war_exploded': ''
         this.instance = axios.create();
         this.interceptor();
     }
@@ -54,6 +54,7 @@ class HttpRequest {
         return this.instance({
             url: url.slice(0, url.length - 1),
             method: 'get',
+            baseURL: this.baseURL,
             headers: {
                 'Content-Type': "application/x-www-form-urlencoded",
             }
@@ -67,6 +68,7 @@ class HttpRequest {
             url: url,
             method: 'post',
             data: QS.stringify(data),
+            baseURL: this.baseURL,
             headers: {
                 'Content-Type': "application/x-www-form-urlencoded",
             }

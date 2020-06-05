@@ -83,6 +83,7 @@ li {
               <MenuItem name="我的主页">我的主页</MenuItem>
               <MenuItem name="我的任务">我的任务</MenuItem>
               <MenuItem name="兑换清单">兑换清单</MenuItem>
+              <MenuItem style="color: red" name="退出登录">退出登录</MenuItem>
             </Submenu>
             <Submenu style="border:none" name="999">
               <template slot="title">
@@ -96,7 +97,7 @@ li {
       </header>
       <Layout :style="{padding: '0 50px', width: '100%', marginTop: '60px'}">
         <div class="container">
-          <Breadcrumb :style="{margin: '16px 0'}">
+          <Breadcrumb :style="{ margin: '16px 0' }">
             <BreadcrumbItem v-for="item in breadcrumb" :key="item">{{item}}</BreadcrumbItem>
           </Breadcrumb>
           <router-view />
@@ -137,6 +138,12 @@ export default {
     },
     // 点击导航
     toPage(name) {
+      if (name === "退出登录") {
+        if (confirm("确认退出登录吗")) {
+          this.$store.commit("clearToken");
+          this.$router.push({ name: "login" });
+        }
+      }
       this.$router.push({
         name: this.list[name]
       });

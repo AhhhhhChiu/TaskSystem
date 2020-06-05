@@ -41,3 +41,7 @@ export const createTask = (data) => {
 export const searchTask = (data) => {
     return http.post(urls.searchTask, data);
 }
+
+export const updateUserInfo = (data) => {
+    return http.post(urls.updateUserInfo, data);
+}

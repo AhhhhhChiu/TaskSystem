@@ -5,29 +5,49 @@
       <Button shape="circle" icon="ios-search" @click="search"></Button>
     </div>
     <div>
+      <Task v-for="i in list" :key="i.id" :item="i" />
       <Loader :loading="loading" />
+      <div v-if="list.length === 0 && !loading">空空如也~</div>
     </div>
   </div>
 </template>
 
 <script>
 import { searchTask } from "@/api/apis";
+import Task from "@/components/Components/Task";
 import Loader from "@/components/Components/Loader";
 export default {
   data() {
     return {
       content: "",
-      pageSize: 10,
+      pageSize: 100,
       currentPage: 1,
-      loading: false
+      loading: false,
+      length: 0,
+      list: []
     };
   },
   components: {
-    Loader
+    Loader,
+    Task
   },
   methods: {
     search() {
-      searchTask();
+      if (!this.content) {
+        this.$Message.error("搜索内容不能为空");
+        return;
+      }
+      this.list = [];
+      this.loading = true;
+      searchTask({
+        pageSize: this.pageSize,
+        currentPage: this.currentPage,
+        "task.title": this.content
+      }).then(res => {
+        console.log(res);
+        this.list = res.data.data.data;
+        this.loading = false;
+      });
     }
   }
 };
@@ -44,6 +64,7 @@ export default {
 }
 .input-group {
   display: flex;
+  margin-bottom: 100px;
 }
 .input {
   width: 400px;

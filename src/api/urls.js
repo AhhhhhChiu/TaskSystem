@@ -18,5 +18,7 @@ export const urls = {
     // 创建任务
     createTask: "/task/save",
     // 任务查询
-    searchTask: "/task/findLike"
+    searchTask: "/task/findLike",
+    // 更改用户信息
+    updateUserInfo: "/user/update",
 }
