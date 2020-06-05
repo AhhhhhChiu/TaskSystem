@@ -8,5 +8,7 @@ export const urls = {
     // 根据任务类型id获得任务
     getTaskByTypeId: "/task/getAll",
     // 获取所有礼品信息
-    getGifts: "/shop/getAllShop"
+    getGifts: "/shop/getAllShop",
+    // 修改礼品信息
+    updateGift: "/shop/update"
 }

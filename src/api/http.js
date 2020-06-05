@@ -23,7 +23,7 @@ class HttpRequest {
         this.instance.interceptors.request.use(config => {
             // do something
             if (config.url !== HttpRequest.LOGIN && config.url !== HttpRequest.REGISTER) {
-                config.headers['token'] = Vue.$store.getters.token;
+                config.headers['auth'] = Vue.$store.getters.token;
             }
             return config;
         }, error => {

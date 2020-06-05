@@ -26,7 +26,7 @@ header {
   border: none;
   height: 57px;
   position: fixed;
-  z-index: 10000;
+  z-index: 1;
   top: 0;
   left: 0;
   width: 100%;
@@ -73,9 +73,17 @@ li {
             <MenuItem style="border:none" name="积分商城">
               <Icon type="md-cart" />积分商城
             </MenuItem>
-            <MenuItem style="border:none" name="个人中心">
+            <!-- <MenuItem style="border:none" name="个人中心">
               <Icon type="md-person" />个人中心
-            </MenuItem>
+            </MenuItem>-->
+            <Submenu style="border:none" name="998">
+              <template slot="title">
+                <Icon type="ios-stats" />个人中心
+              </template>
+              <MenuItem name="我的主页">我的主页</MenuItem>
+              <MenuItem name="我的任务">我的任务</MenuItem>
+              <MenuItem name="兑换清单">兑换清单</MenuItem>
+            </Submenu>
             <Submenu style="border:none" name="999">
               <template slot="title">
                 <Icon type="ios-stats" />超级管理员
@@ -106,7 +114,7 @@ export default {
         任务中心: "home",
         任务查询: "search",
         积分商城: "shop",
-        个人中心: "user",
+        我的主页: "user",
         发布任务: "post",
         商城管理: "shopmanager"
       },

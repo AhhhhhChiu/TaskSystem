@@ -9,8 +9,21 @@
     </Content>
     <Content class="right my-shadow">
       <!-- 下面这里就是列表 -->
+      <!-- area: null
+      content: "wqewqe123rewr"
+      create_time: "2020-05-22T18:15:00"
+      create_user: 2
+      end_time: "2020-06-10T01:11:11"
+      id: 50
+      img: "wqeqw"
+      integral: 12
+      number: 11
+      start_time: "2020-05-22T01:11:11"
+      status: false
+      title: "wqe123213"
+      type_id: 1 -->
       <Card
-        v-for="i in list"
+        v-for="i in (1)"
         :key="i.id"
         dis-hover
         style="height: fit-content; width: 700px; margin: 20px;"
@@ -60,7 +73,7 @@ export default {
     changeTaskType(event) {
       if (event.target.nodeType === 1) {
         this.getTaskByTypeId({
-          "task.typei_d": this.typeList.indexOf(event.target.innerHTML),
+          "task.type_id": this.typeList.indexOf(event.target.innerHTML),
           currentPage: 1,
           pageSize: 10
         });

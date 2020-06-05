@@ -78,7 +78,7 @@ export default {
         this.$store.commit("setToken", res.data.data);
         setTimeout(() => {
           this.$router.push({ name: "home" });
-        }, 600);
+        }, 0);
       });
     },
     toRegister: function() {

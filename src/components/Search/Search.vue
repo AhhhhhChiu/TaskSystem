@@ -4,14 +4,11 @@
       <i-input class="input"></i-input>
       <Button shape="circle" icon="ios-search"></Button>
     </div>
-    
   </div>
 </template>
 
 <script>
-export default {
-
-};
+export default {};
 </script>
 
 <style scoped>

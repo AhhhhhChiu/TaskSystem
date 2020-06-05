@@ -21,3 +21,7 @@ export const getTaskByTypeId = (data) => {
 export const getGifts = (data) => {
     return http.post(urls.getGifts, data);
 }
+
+export const updateGift = (data) => {
+    return http.post(urls.updateGift, data);
+}

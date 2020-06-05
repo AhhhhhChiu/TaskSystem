@@ -11,12 +11,6 @@
       <FormItem label="标题" prop="name">
         <Input v-model="formValidate.name" placeholder="输入标题"></Input>
       </FormItem>
-      <FormItem label="E-mail" prop="mail">
-        <Input v-model="formValidate.mail" placeholder="输入e-mail"></Input>
-      </FormItem>
-      <FormItem label="手机号" prop="phone">
-        <Input v-model="formValidate.phone" placeholder="输入手机号" type="number"></Input>
-      </FormItem>
       <FormItem label="任务分类" prop="city">
         <Select v-model="formValidate.city" placeholder="选择任务分类">
           <Option value="软件外包">软件外包</Option>
@@ -26,6 +20,9 @@
           <Option value="办公助理">办公助理</Option>
           <Option value="澳门代购">澳门代购</Option>
         </Select>
+      </FormItem>
+      <FormItem label="任务人数" prop="number">
+        <Input v-model="formValidate.number" placeholder="输入任务人数" type="number"></Input>
       </FormItem>
       <FormItem label="有效期">
         <Row>
@@ -44,6 +41,9 @@
       </FormItem>
       <FormItem label="任务积分" prop="score">
         <Input v-model="formValidate.score" placeholder="输入任务积分" type="number"></Input>
+      </FormItem>
+      <FormItem label="手机号" prop="phone">
+        <Input v-model="formValidate.phone" placeholder="输入手机号" type="number"></Input>
       </FormItem>
       <FormItem label="任务内容" prop="desc">
         <Input
