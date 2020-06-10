@@ -6,9 +6,11 @@ import store from "./store";
 import router from './router';
 import ViewUI from 'view-design';
 import 'view-design/dist/styles/iview.css';
+import waterfall from 'vue-waterfall2'
 
 Vue.config.productionTip = false
 
+Vue.use(waterfall);
 Vue.use(ViewUI);
 
 /* eslint-disable no-new */

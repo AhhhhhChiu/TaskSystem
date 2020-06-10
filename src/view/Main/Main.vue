@@ -103,7 +103,7 @@ li {
           <router-view />
         </div>
       </Layout>
-      <Footer class="layout-footer-center">2020 &copy; 任务发布系统</Footer>
+      <Footer class="layout-footer-center">综合实训 &copy; 任务发布系统</Footer>
     </Layout>
   </div>
 </template>
