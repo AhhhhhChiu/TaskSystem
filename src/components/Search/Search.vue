@@ -1,11 +1,11 @@
 <template>
   <div class="container my-shadow box">
-    <div class="input-group">
+    <div :style="{display: from==='search'?'': 'none'}" class="input-group">
       <i-input class="input" v-model="content" placeholder="输入任务标题关键字进行查询"></i-input>
       <Button shape="circle" icon="ios-search" @click="search"></Button>
     </div>
     <div>
-      <Task v-for="i in list" :key="i.id" :item="i" />
+      <Task v-for="i in list" :key="i.id" :item="i" :from="from" />
       <Loader :loading="loading" />
       <div v-if="list.length === 0 && !loading">空空如也~</div>
     </div>
@@ -13,17 +13,18 @@
 </template>
 
 <script>
-import { searchTask } from "@/api/apis";
+import { searchTask, getUserTasks, getPostTasks } from "@/api/apis";
 import Task from "@/components/Components/Task";
 import Loader from "@/components/Components/Loader";
 export default {
   data() {
     return {
       content: "",
-      pageSize: 100,
+      pageSize: 999,
       currentPage: 1,
       loading: false,
       length: 0,
+      from: "search",
       list: []
     };
   },
@@ -31,7 +32,27 @@ export default {
     Loader,
     Task
   },
+  watch: {
+    $route: "changeRoute"
+  },
+  created() {
+    this.changeRoute();
+  },
   methods: {
+    changeRoute() {
+      this.from = this.$route.meta.from;
+      switch (this.from) {
+        case "search":
+          // do something
+          break;
+        case "myTasks":
+          this.getUserTasks();
+          break;
+        case "postTasks":
+          this.getPostTasks();
+          break;
+      }
+    },
     search() {
       if (!this.content) {
         this.$Message.error("搜索内容不能为空");
@@ -46,6 +67,30 @@ export default {
       }).then(res => {
         console.log(res);
         this.list = res.data.data.data;
+        this.loading = false;
+      });
+    },
+    getUserTasks() {
+      this.list = [];
+      this.loading = true;
+      getUserTasks({
+        currentPage: 1,
+        pageSize: 999
+      }).then(res => {
+        console.log(res);
+        if (res.data.data.total > 0) this.list = res.data.data.data;
+        this.loading = false;
+      });
+    },
+    getPostTasks() {
+      this.list = [];
+      this.loading = true;
+      getPostTasks({
+        currentPage: 1,
+        pageSize: 999
+      }).then(res => {
+        console.log(res);
+        if (res.data.data.total > 0) this.list = res.data.data.data;
         this.loading = false;
       });
     }

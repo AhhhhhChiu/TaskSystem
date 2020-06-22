@@ -8,9 +8,16 @@
       </nav>
     </Content>
     <Content class="right my-shadow">
-      <Task v-for="i in list" :key="i" :item="i" />
+      <Task v-for="i in list" :key="i" :item="i" from="search" />
       <Loader :loading="loading" />
-      <div style="margin-top: 50px" v-if="list.length === 0 && !loading">这个分类下暂时没有任务</div>
+      <div style="margin-top: 50px" v-if="total === 0 && !loading">这个分类下暂时没有任务</div>
+      <Button
+        v-if="total !== 0 && !loading"
+        @click="loadMore"
+        size="small"
+        :loading="loadingMore"
+        style="margin-top: 30px"
+      >加载更多</Button>
     </Content>
   </div>
 </template>
@@ -31,9 +38,12 @@ export default {
         "澳门代购"
       ],
       loading: false,
+      loadingMore: false,
       currentPage: 1,
       pageSize: 10,
-      list: []
+      total: 0,
+      list: [],
+      currentType: 0
     };
   },
   components: {
@@ -47,10 +57,45 @@ export default {
   methods: {
     // 获取任务
     getTaskByTypeId(info) {
+      this.list = [];
       this.loading = true;
       getTaskByTypeId(info).then(res => {
-        this.list = res.data.data.data;
+        console.log(res);
+        let resp = res.data.data;
+        if (resp.hasOwnProperty("data")) {
+          this.list = res.data.data.data;
+          // this.list.concat(res.data.data.data);
+          this.total = res.data.data.total;
+        } else {
+          this.list = [];
+          this.total = 0;
+        }
         this.loading = false;
+        console.log(this.list);
+      });
+    },
+
+    // 加载更多
+    loadMore() {
+      this.loadingMore = true;
+      getTaskByTypeId({
+        "task.type_id": this.currentType,
+        currentPage: ++this.currentPage,
+        pageSize: 10
+      }).then(res => {
+        let resp = res.data.data;
+        console.log(resp);
+        if (resp.data) {
+          // this.list = res.data.data.data;
+          this.list = this.list.concat(res.data.data.data);
+          this.total = res.data.data.total;
+        } else {
+          this.$Notice.info({
+            title: "没有更多数据了"
+          });
+          this.loadingMore = false;
+        }
+        this.loadingMore = false;
         console.log(this.list);
       });
     },
@@ -58,14 +103,14 @@ export default {
     // 更改
     changeTaskType(event) {
       if (event.target.nodeType === 1) {
+        this.currentType = this.typeList.indexOf(event.target.innerHTML);
         this.getTaskByTypeId({
-          "task.type_id": this.typeList.indexOf(event.target.innerHTML),
+          "task.type_id": this.currentType,
           currentPage: 1,
           pageSize: 10
         });
       }
     }
-
     //
   }
 };

@@ -126,7 +126,8 @@ export default {
         "user.roleId": item.roleId,
         "user.telphone": item.telphone,
         "user.email": item.email,
-        "user.address": item.address
+        "user.address": item.address,
+        "user.integral": item.integral
       }).then(res => {
         console.log(res);
         this.loading = false;
@@ -137,8 +138,6 @@ export default {
   }
 };
 </script>
-
-
 
 <style scoped>
 .input {

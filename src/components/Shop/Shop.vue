@@ -9,7 +9,13 @@
     </Content>-->
     <Content class="right">
       <!-- 商城的内容写在这里就可以 -->
-      <vueWaterfallEasy id="fall" :imgsArr="list" srcKey="img" maxCols="4">
+      <vueWaterfallEasy
+        id="fall"
+        :imgsArr="list"
+        srcKey="img"
+        maxCols="4"
+        @scrollReachBottom="getData"
+      >
         <div class="img-info" slot-scope="props">
           <div
             style="color: #000; margin-bottom: 8px; display: flex; justify-content: space-between"
@@ -18,12 +24,13 @@
             <span>积分：{{props.value.integral}}</span>
           </div>
           <div style="color: #666; margin-bottom: 10px;">{{props.value.description}}</div>
-          <Button @click="getGift(props.value.id)">兑换礼品</Button>
-          <!-- <p class="some-info">第{{props.index+1}}张图片</p>
-          <p class="some-info">{{props.value.name}}</p>-->
+          <Button
+            v-if="!isExchanged"
+            @click="exchangeGift(props.value.id, props.index)"
+            :loading="props.value.loading"
+          >兑换礼品</Button>
         </div>
       </vueWaterfallEasy>
-      <!-- <Loader :loading="loading" /> -->
     </Content>
   </div>
 </template>
@@ -31,36 +38,95 @@
 <script>
 import vueWaterfallEasy from "vue-waterfall-easy";
 import Loader from "@/components/Components/Loader";
-import { getGifts } from "@/api/apis";
+import {
+  getGifts,
+  exchangeGift,
+  getUserGifts,
+  getGiftsWithoutDelete
+} from "@/api/apis";
 export default {
   data() {
     return {
       list: [],
       currentPage: 1,
-      pageSize: 10,
-      loading: false
+      pageSize: 8,
+      loading: false,
+      isExchanged: false
     };
-  },
-  created() {
-    this.getData({
-      currentPage: this.currentPage,
-      pageSize: this.pageSize
-    });
   },
   components: {
     vueWaterfallEasy
   },
+  created() {
+    this.changeRoute();
+  },
+  watch: {
+    $route: "changeRoute"
+  },
   methods: {
-    getData(info) {
-      this.loading = true;
-      getGifts(info).then(res => {
-        this.list = res.data.data.data;
-        console.log(this.list);
-        this.loading = false;
-      });
+    changeRoute() {
+      if (this.$route.meta.isExchanged) {
+        this.isExchanged = true;
+        this.list = [];
+        this.currentPage = 1;
+        this.pageSize = 8;
+        setTimeout(() => {
+          this.getData();
+        }, 100);
+      } else {
+        this.isExchanged = false;
+        this.list = [];
+        this.currentPage = 1;
+        this.pageSize = 8;
+        setTimeout(() => {
+          this.getData();
+        }, 100);
+      }
     },
-    getGift(id) {
-      alert(id);
+    getData() {
+      if (!this.isExchanged) {
+        getGiftsWithoutDelete({
+          currentPage: this.currentPage,
+          pageSize: this.pageSize
+        }).then(res => {
+          let newList = res.data.data.data;
+          newList = newList.map(elem => {
+            elem.loading = false;
+            return elem;
+          });
+          if (newList[newList.length - 1] != this.list[this.list.length - 1])
+            this.list = this.list.concat(res.data.data.data);
+          this.currentPage++;
+        });
+      } else {
+        getUserGifts({
+          currentPage: this.currentPage,
+          pageSize: this.pageSize
+        }).then(res => {
+          let newList = res.data.data.data;
+          newList = newList.map(elem => {
+            elem.loading = false;
+            return elem;
+          });
+          if (newList[newList.length - 1] != this.list[this.list.length - 1])
+            this.list = this.list.concat(res.data.data.data);
+          this.currentPage++;
+        });
+      }
+    },
+    exchangeGift(id, index) {
+      this.list[index].loading = true;
+      exchangeGift({
+        "shop.id": id
+      }).then(res => {
+        console.log(res);
+        this.list[index].loading = false;
+        if (res.data.code === 200) {
+          this.$Message.success("兑换成功");
+        } else {
+          this.$Message.error("积分不足");
+        }
+      });
     }
   }
 };

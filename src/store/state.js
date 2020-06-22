@@ -19,7 +19,15 @@ try {
     }
 } catch (e) { }
 
+let roleId = 0
+try {
+    if (localStorage.roleId) {
+        roleId = localStorage.roleId
+    }
+} catch (e) { }
+
 export default {
+    roleId,
     token,
     LoginForm,
     id

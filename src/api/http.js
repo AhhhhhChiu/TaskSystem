@@ -4,7 +4,7 @@ import Vue from "../main";
 
 class HttpRequest {
     constructor() {
-        this.baseURL = process.env.NODE_ENV === 'production'? '/sshLab_war_exploded': ''
+        this.baseURL = process.env.NODE_ENV === 'production' ? '/sshLab_war_exploded' : ''
         this.instance = axios.create();
         this.interceptor();
     }
@@ -23,7 +23,15 @@ class HttpRequest {
         this.instance.interceptors.request.use(config => {
             // do something
             if (config.url !== HttpRequest.LOGIN && config.url !== HttpRequest.REGISTER) {
-                config.headers['auth'] = Vue.$store.getters.token;
+                const token = Vue.$store.getters.token;
+                if (token) {
+                    config.headers['auth'] = token;
+                } else {
+                    alert("请先进行登录");
+                    Vue.$router.push({
+                        name: "login"
+                    })
+                }
             }
             return config;
         }, error => {

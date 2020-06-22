@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import state from "./state";
+import { stat } from 'fs';
 
 Vue.use(Vuex);
 
@@ -22,11 +23,17 @@ export default new Vuex.Store({
         clearToken(state) {
             state.token = "";
             localStorage.setItem("token", "")
+        },
+        setRoleId(state, roleId) {
+            state.roleId = roleId;
+            localStorage.setItem("roleId", roleId);
         }
+
     },
     getters: {
         token: state => state.token,
         LoginForm: state => state.LoginForm,
-        id: state => state.id
+        id: state => state.id,
+        roleId: state => state.roleId
     }
 })

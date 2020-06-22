@@ -45,3 +45,35 @@ export const searchTask = (data) => {
 export const updateUserInfo = (data) => {
     return http.post(urls.updateUserInfo, data);
 }
+
+export const exchangeGift = (data) => {
+    return http.post(urls.exchangeGift, data);
+}
+
+export const addGift = (data) => {
+    return http.post(urls.addGift, data);
+}
+
+export const deleteGift = (data) => {
+    return http.post(urls.deleteGift, data);
+}
+
+export const getUserTasks = (data) => {
+    return http.post(urls.getUserTasks, data);
+}
+
+export const completeTask = (data) => {
+    return http.post(urls.completeTask, data);
+}
+
+export const getPostTasks = (data) => {
+    return http.post(urls.getPostTasks, data);
+}
+
+export const getUserGifts = (data) => {
+    return http.post(urls.getUserGifts, data);
+}
+
+export const getGiftsWithoutDelete = (data) => {
+    return http.post(urls.getGiftsWithoutDelete, data);
+}

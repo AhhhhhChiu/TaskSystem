@@ -9,6 +9,8 @@ export const urls = {
     getTaskByTypeId: "/task/getAll",
     // 获取所有礼品信息
     getGifts: "/shop/getAllShop",
+    // 获取所有礼品信息(过滤删除)
+    getGiftsWithoutDelete: "/shop/getAllShopNoDelete",
     // 修改礼品信息
     updateGift: "/shop/update",
     // 获取用户信息
@@ -21,4 +23,18 @@ export const urls = {
     searchTask: "/task/findLike",
     // 更改用户信息
     updateUserInfo: "/user/update",
+    // 兑换礼品
+    exchangeGift: "/shop/saveShopOfUser",
+    // 添加新礼品
+    addGift: "/shop/save",
+    // 删除礼品
+    deleteGift: "/shop/deleteByShopId",
+    // 获取已经接收的任务
+    getUserTasks: "/task/getTaskByUserId",
+    // 完成任务
+    completeTask: "/task/seccessByTask",
+    // 获取发布的任务
+    getPostTasks: "/task/getTaskByAuthor",
+    // 获取用户已兑礼品
+    getUserGifts: "/shop/getShopOfUser"
 }

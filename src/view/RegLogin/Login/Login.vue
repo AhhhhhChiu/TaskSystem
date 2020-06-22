@@ -15,7 +15,7 @@
       <FormItem>
         <div style="display: flex; justify-content: space-between">
           <span>密码</span>
-          <a onclick="alert('联系管理员xxxxxx@gmail.com')">忘记密码?</a>
+          <!-- <a onclick="alert('联系管理员xxxxxx@gmail.com')">忘记密码?</a> -->
         </div>
         <input v-model="LoginForm['user.password']" type="password" class="input" />
       </FormItem>
@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import { login } from "@/api/apis";
+import { login, getUserInfo } from "@/api/apis";
 export default {
   created() {
     let LoginForm = localStorage.getItem("LoginForm");
@@ -76,16 +76,20 @@ export default {
         }
         this.remeberme &&
           localStorage.setItem("LoginForm", JSON.stringify(this.LoginForm));
-        console.log(res);
         let msg = res.data.data.getIntegral ? "登录成功 +1积分" : "登录成功";
         this.$Message.success(msg);
         this.loginLoading = false;
         // token和id存起来
         this.$store.commit("setToken", res.data.data.token);
         this.$store.commit("setId", res.data.data.id);
-        setTimeout(() => {
-          this.$router.push({ name: "home" });
-        }, 0);
+        getUserInfo({ "user.id": res.data.data.id }).then(res => {
+          this.$store.commit("setRoleId", res.data.data.roleId);
+          setTimeout(() => {
+            this.$router.push({
+              name: "home"
+            });
+          }, 0);
+        });
       });
     },
     toRegister: function() {

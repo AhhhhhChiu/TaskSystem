@@ -43,6 +43,7 @@ export default new Router({
           name: 'search',
           component: () => import("@/components/Search"),
           meta: {
+            from: "search",
             breadcrumb: ["主页", "任务查询"]
           }
         },
@@ -52,6 +53,7 @@ export default new Router({
           name: 'shop',
           component: () => import("@/components/Shop"),
           meta: {
+            isExchanged: false,
             breadcrumb: ["主页", "积分商城"]
           }
         },
@@ -60,7 +62,34 @@ export default new Router({
           name: 'user',
           component: () => import("@/components/User"),
           meta: {
-            breadcrumb: ["主页", "个人中心"]
+            breadcrumb: ["主页", "个人中心", "我的主页"]
+          }
+        },
+        {
+          path: '/myTasks',
+          name: 'myTasks',
+          component: () => import("@/components/Search"),
+          meta: {
+            from: "myTasks",
+            breadcrumb: ["主页", "个人中心", "我的任务"]
+          }
+        },
+        {
+          path: '/postTasks',
+          name: 'postTasks',
+          component: () => import("@/components/Search"),
+          meta: {
+            from: "postTasks",
+            breadcrumb: ["主页", "管理员", "已发布任务"]
+          }
+        },
+        {
+          path: '/exchanged',
+          name: 'exchanged',
+          component: () => import("@/components/Shop"),
+          meta: {
+            isExchanged: true,
+            breadcrumb: ["主页", "个人中心", "已兑清单"]
           }
         },
         {
@@ -68,7 +97,7 @@ export default new Router({
           name: 'post',
           component: () => import("@/components/Post"),
           meta: {
-            breadcrumb: ["主页", "超级管理员", "发布任务"]
+            breadcrumb: ["主页", "管理员", "发布任务"]
           }
         },
         {
@@ -76,7 +105,7 @@ export default new Router({
           name: 'shopmanager',
           component: () => import("@/components/ShopManager"),
           meta: {
-            breadcrumb: ["主页", "超级管理员", "商城管理"]
+            breadcrumb: ["主页", "管理员", "商城管理"]
           }
         },
       ]

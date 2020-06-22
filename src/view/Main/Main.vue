@@ -81,16 +81,17 @@ li {
                 <Icon type="ios-stats" />个人中心
               </template>
               <MenuItem name="我的主页">我的主页</MenuItem>
-              <MenuItem name="我的任务">我的任务</MenuItem>
-              <MenuItem name="兑换清单">兑换清单</MenuItem>
+              <MenuItem name="已兑清单">已兑清单</MenuItem>
+              <MenuItem name="已接收任务">已接收任务</MenuItem>
               <MenuItem style="color: red" name="退出登录">退出登录</MenuItem>
             </Submenu>
-            <Submenu style="border:none" name="999">
+            <Submenu v-if="roleId==1" style="border:none" name="999">
               <template slot="title">
-                <Icon type="ios-stats" />超级管理员
+                <Icon type="ios-stats" />管理员
               </template>
               <MenuItem name="发布任务">发布任务</MenuItem>
               <MenuItem name="商城管理">商城管理</MenuItem>
+              <MenuItem name="已发布任务">已发布任务</MenuItem>
             </Submenu>
           </Menu>
         </nav>
@@ -117,13 +118,18 @@ export default {
         积分商城: "shop",
         我的主页: "user",
         发布任务: "post",
-        商城管理: "shopmanager"
+        商城管理: "shopmanager",
+        已接收任务: "myTasks",
+        已兑清单: "exchanged",
+        已发布任务: "postTasks"
       },
       breadcrumb: [],
       activeNname: ""
     };
   },
   mounted() {
+    this.roleId = this.$store.state.roleId;
+    console.log(this.$store);
     const last = this.$route.meta.breadcrumb.length - 1;
     this.activeNname = this.$route.meta.breadcrumb[last];
     this.changePath();
