@@ -15,7 +15,6 @@
       <FormItem>
         <div style="display: flex; justify-content: space-between">
           <span>密码</span>
-          <!-- <a onclick="alert('联系管理员xxxxxx@gmail.com')">忘记密码?</a> -->
         </div>
         <input v-model="LoginForm['user.password']" type="password" class="input" />
       </FormItem>

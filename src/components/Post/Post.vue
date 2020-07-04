@@ -187,7 +187,15 @@ export default {
     handleSubmit(name) {
       this.$refs[name].validate(valid => {
         if (this.formValidate.start_time > this.formValidate.end_time) {
-          this.$Message.error("任务有效期填写有误！");
+          this.$Message.error("任务过期时间不能早于开始时间！");
+          return;
+        }
+        const now = new Date();
+        if (
+          this.formValidate.start_time < now &&
+          this.formValidate.end_time < now
+        ) {
+          this.$Message.error("任务有效期失效！");
           return;
         }
         if (valid) {
